@@ -7,12 +7,14 @@
 #
 # Setup:
 # 1. Create a python virtual environment so we can add python modules without affecting the rest of the computer:
-#   mkdir auto-chronicle/
-#   python3 -m venv auto-chronicle/
-# 2. Activate the virtual environment. This will change your shell to look like: "(auto-chronicle) omustardo@omar-debian:~/Desktop/auto-chronicle$". If you aren't in an activated virtual environment, then things won't work.
-#   source auto-yourchronicle/src/bin/activate
+#   Download this github repo and move to the `auto-yourchronicle/src/` dir.
+#   python3 -m venv auto-yourchronicle/
+# 2. Activate the virtual environment. This will change your shell to look like: "(src) username@/path/to/auto-yourchronicle/src$". If you aren't in an activated virtual environment, then things won't work.
+#   source bin/activate
 # 3. Install required modules:
 #   pip3 install pyautogui pytesseract opencv-python
+# 4. Run the program:
+#   python3 -u main.py
 
 import subprocess
 import time
@@ -47,12 +49,14 @@ def initialize():
 	print("Moving and Resizing YourChronicle window:")
 	# Move the game window to a set location and size. The arguments are:
 	# g,x,y,w,h. g is always zero and the rest are straightforward.
-	cmd = ["wmctrl", "-R", "YourChronicle", "-F", "-e", ("0,%d,%d,%d,%d" % (navigator.WINDOW_TOP_LEFT[0], navigator.WINDOW_TOP_LEFT[1], navigator.GAME_WIDTH, navigator.GAME_HEIGHT))]
+	cmd = ["wmctrl", "-F", "-R", "YourChronicle",  "-e", ("0,%d,%d,%d,%d" % (navigator.WINDOW_TOP_LEFT[0], navigator.WINDOW_TOP_LEFT[1], navigator.GAME_WIDTH, navigator.GAME_HEIGHT))]
 	print("$ ", " ".join(cmd))
 	subprocess.run(cmd, stdout=subprocess.PIPE)
 
 	print("Setting YourChronicle as the active window")
-	cmd = ["wmctrl", "-a", "YourChronicle"]
+	# -a means to make the window the active one.
+	# -F forces exact and case sensitive matching.
+	cmd = ["wmctrl",  "-F", "-a", "YourChronicle"]
 	print("$ ", " ".join(cmd))
 	subprocess.run(cmd, stdout=subprocess.PIPE)
 	for i in range(2):
