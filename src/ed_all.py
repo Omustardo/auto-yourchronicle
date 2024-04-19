@@ -17,8 +17,12 @@ def spend_sins():
 			count = count + 1
 		else:
 			break
+	# best effort click the top "Upgrade Action"
 	if count < 42:
-		navigator.click(524, 152, clicks=50) # best effort click the top "Upgrade Action"
+		navigator.click(520, 130, clicks=50)
+	# best effort click the top "Instant Action"
+	if count < 42:
+		navigator.click(250, 130, clicks=50)
 
 def reincarnate_WillingRevenge():
 	greedAll()
@@ -54,12 +58,13 @@ def greedAll():
 	  4: 10,
 	  6: -1,
 	  7: 3,
-	  13: -1,  
+	  13: -1,
 	}
 	greed(clickConfig, default_count=1)
 
 def gluttonyAll():
 	must(navigator.click_MainMenu_Routine_Menu("Gluttony"))
+	# TODO: press 'e' and then confirm to eat everything.
 	for i in range(0,10):
 		navigator.click(756, 143 + i * 24, clicks=25)
 
@@ -67,7 +72,12 @@ def astral_kill_all():
 	if not navigator.click_MainMenu_Main_Area("Astral"):
 		return False
 	# "Kill all ...".
-	return navigator.click_MainMenu_Main_InstantAction("Destroyer", enable_recursion=False) and navigator.click_MainMenu_Main_InstantAction("Hermit", enable_recursion=False) and navigator.click_MainMenu_Main_InstantAction("Arbitrator", enable_recursion=False) and navigator.click_MainMenu_Main_InstantAction("Creator", enable_recursion=False) and navigator.click_MainMenu_Main_InstantAction("Dominator", enable_recursion=False)
+	return (
+		navigator.click_MainMenu_Main_InstantAction("Destroyer", enable_recursion=False)
+		and navigator.click_MainMenu_Main_InstantAction("Hermit", enable_recursion=False)
+		and navigator.click_MainMenu_Main_InstantAction("Arbitrator", enable_recursion=False)
+		and navigator.click_MainMenu_Main_InstantAction("Creator", enable_recursion=False)
+		and navigator.click_MainMenu_Main_InstantAction("Dominator", enable_recursion=False))
 
 def try_dark_ritual():
 	if not navigator.click_MainMenu_Option("Ritual"):
@@ -79,10 +89,6 @@ def try_dark_ritual():
 	return False
 
 def execute_dark_ritual():
-	# TODO: put wakeup code elsewhere?
-	navigator.click(10, 10) # wake in case it went into low-CPU mode
-	time.sleep(5) # wait low-CPU mode to exit
-
 	print("Executing Dark Ritual")
 	astral_kill_all()
 	must(navigator.click_MainMenu_Party_TopMenu("Main"))
@@ -97,3 +103,7 @@ def execute_dark_ritual():
 	must(navigator.select_party(2))
 	greed({0:1, 1:3}, default_count=0)
 
+def wake_from_low_cpu_mode():
+	# TODO: put wakeup code elsewhere?
+	navigator.click(10, 10) # wake in case it went into low-CPU mode
+	time.sleep(5) # wait low-CPU mode to exit
