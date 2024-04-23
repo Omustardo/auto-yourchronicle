@@ -74,19 +74,45 @@ def take_screenshot(output_filename):
 	img = pyautogui.screenshot(region=navigator.GAME_REGION)
 	img.save("screenshots/" + output_filename)
 
+# Save a screenshot based on a region relative to navigator.GAME_REGION
+def take_gameregion_screenshot(output_filename, region):
+	r = (region[0] + navigator.GAME_REGION[0],
+		region[1] + navigator.GAME_REGION[1],
+		region[2],
+		region[3])
+	img = pyautogui.screenshot(region=r)
+	img.save("screenshots/" + output_filename)
+
 def must(result):
 	if not result:
 		sys.exit()
 
 initialize()
 take_screenshot("init.png")
-sys.exit()
+
+#complete_button_region = navigator.getTextRegion(navigator.MENU_REGIONS__PARTY__QUEST__CURRENT_QUEST_ACTION_OPTIONS, "Complete", enable_recursion=True)
+# Either no active quests, or no quests are ready to complete.
+#if not complete_button_region:
+#	print("No quests are ready to complete")
+#	sys.exit()
+#print("Found button at=" + str(complete_button_region))
+#button_screen_region = (  complete_button_region[0] + navigator.MENU_REGIONS__PARTY__QUEST__CURRENT_QUEST_ACTION_OPTIONS[0],  complete_button_region[1] + navigator.MENU_REGIONS__PARTY__QUEST__CURRENT_QUEST_ACTION_OPTIONS[1],  complete_button_region[2],  complete_button_region[3])
+#take_gameregion_screenshot("quests_complete_area.png", button_screen_region)
+#take_screenshot("quests.png")
+
+#sys.exit()
 #partial_run.partial()
 for i in range(20000):
 	#ed1.ed1()
-	#quest.refresh_quest_list()
+	#quest.recover_all()
+	#quest.try_complete_all()
 	print("try_dark_ritual: ", ed_all.try_dark_ritual())
 	time.sleep(30)
+
+# TODO: I'm using pytesseract to identify the same images repeatedly. I could cache results to speed it up, especially
+#       for recursive searching. I'd need to save a map from a hash of the image data to the results. Definitely don't
+#       save the full screenshot. Often irrelevant parts of the image change (e.g. red progressbar backgrounds on
+#       buttons). Should I strip these out?
 
 # TODO: consider keeping a buffer of the N most recent screenshots, and dump them to file if there's an error. Or just a short video clip?
 
@@ -94,7 +120,7 @@ for i in range(20000):
 
 # TODO: how to make text recognition more reliable, rather than dealing with fuzziness and fallbacks.
 
-# TODO: save a screenshot with various text highlighted. Very useful for debugging
+# TODO: save a screenshot with regions and their centerpoints highlighted. Very useful for debugging
 
 # TODO: clean text (only alphanumeric? or convert stuff to closest letters, e.g. | to L
 

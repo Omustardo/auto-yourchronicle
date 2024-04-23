@@ -48,6 +48,12 @@ MENU_REGIONS__MAIN__NEXT_ACTIONS = (GAME_REGION[0] + 597, GAME_REGION[1] + 108, 
 MENU_REGIONS__MAIN__DUNGEON_ACTIONS = (GAME_REGION[0] + 727, GAME_REGION[1] + 108, 110, 1020)
 
 MENU_REGIONS__PARTY__TOP_BAR = (GAME_REGION[0] + 201, GAME_REGION[1] + 73, 650, 30)
+# The vertical strip containing all "Edit Complete Recover" quest options (and other options depending on quest state).
+MENU_REGIONS__PARTY__QUEST__CURRENT_QUEST_OPTIONS = (GAME_REGION[0] + 423, GAME_REGION[1] + 143, 175, 1000)
+# The thin vertical strip containing either "Give Up", "Complete", or "Select" as quest options.
+MENU_REGIONS__PARTY__QUEST__CURRENT_QUEST_ACTION_OPTIONS = (GAME_REGION[0] + 476, GAME_REGION[1] + 143, 521-476, 500)
+# The list of available quests or "Empty". Includes the "Set" text area to the right.
+MENU_REGIONS__PARTY__QUEST__SELECTION = (GAME_REGION[0] + 600, GAME_REGION[1] + 144, 240, 500)
 
 MENU_REGIONS__ROUTINE__SUBMENU = (GAME_REGION[0] + 103, GAME_REGION[1] + 108, 90, 1020)
 
@@ -141,10 +147,10 @@ def getTextRegion(screen_region, text, ignore_case=True, only_a_z=True, find_nth
 	if only_a_z:
 		text = [re.sub(r'[^a-zA-Z]', '', t) for t in text]
 	# Assume text can't be smaller than some arbitrary minimum, so this method can be called recursively.
-	if screen_region[2] < 50 or screen_region[3] < 20 or recursion_depth > 10:
-		return False
+	if screen_region[2] < 20 or screen_region[3] < 20 or recursion_depth > 10:
+		return None
 	img = preprocess_image(pyautogui.screenshot(region=screen_region))
-	# img.save("screenshots/getTextRegion.png") # TODO: useful for debugging
+	img.save("screenshots/getTextRegion.png") # TODO: useful for debugging
 	data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
 	#print(data)
 	boxes = len(data['text'])
@@ -212,10 +218,17 @@ def findIndex(arr1, arr2, find_nth=0):
 	return -1
 
 # region is a tuple of x,y,w,h
+# It is based on screen coordinates and can click outside of the game region.
 def clickRegion(region, clicks=1, interval=0.1, offset_region=None):
 	if offset_region:
 		region = (region[0] + offset_region[0], region[1] + offset_region[1], region[2], region[3])
-	pyautogui.click(x=region[0] + region[2] / 2, y=region[1] + region[3] / 2, clicks=clicks, interval=interval)
+	clickCoord = (int(region[0] + region[2] / 2),
+	 							int(region[1] + region[3] / 2))
+	print("Clicking the center of screen region=" + str(region) + "  == " + str(clickCoord))
+	if (clickCoord[0] < GAME_REGION[0] or clickCoord[0] > GAME_REGION[0] + GAME_REGION[2] or
+		clickCoord[1] < GAME_REGION[1] or clickCoord[1] > GAME_REGION[1] + GAME_REGION[3]):
+		print("WARNING: clicking outside of game region")
+	pyautogui.click(x=clickCoord[0], y=clickCoord[1], clicks=clicks, interval=interval)
 	pyautogui.moveTo(GAME_TOP_LEFT[0], GAME_TOP_LEFT[1]) # get mouse out of the way for taking screenshots.
 
 # Click on coordinates relative to the game window.
