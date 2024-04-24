@@ -9,6 +9,7 @@ import time
 import re
 from PIL import ImageEnhance,ImageFilter,Image
 from itertools import chain
+import hashlib
 
 # Where to put the game window.
 WINDOW_TOP_LEFT = (1400, 100)
@@ -157,7 +158,6 @@ def textCloseEnough(got, want):
 		return True
 	# TODO: consider implementing off-by-one detection, or levenstein distance.
 
-
 # Returns a region containing the given text, or None.
 # If text is a string it will look for the first exact match, searching from the top left of the screen.
 # If text is an array of strings, it will try to find a match for all of them, but since it tokenizes on words it will only return the region for the first word. (e.g. "Talk to Old Lady" returns the region for "Talk"). Note that this doesn't respect the text actually being close together, only that it's found sequentially.
@@ -185,33 +185,10 @@ def getTextRegion(screen_region, text, ignore_case=True, only_a_z=True, find_nth
 	if screen_region[2] < 20 or screen_region[3] < 10 or recursion_depth > 10:
 		return None
 	img = preprocess_image(pyautogui.screenshot(region=screen_region))
-	#img.save("screenshots/getTextRegion.png") # TODO: useful for debugging
-	data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
-	#print(data)
-	boxes = len(data['text'])
-	all_found_text = []
-	all_found_text_indices = []  # indices in the original data from pytesseract.
-	for i in range(boxes):
-		found_text = data['text'][i].strip()
-		if not found_text:
-			continue
-		if ignore_case:
-			found_text = found_text.lower()
-		if only_a_z:
-			found_text = re.sub(r'[^a-zA-Z]', '', found_text)
-		all_found_text.append(found_text)
-		all_found_text_indices.append(i)
-	if len(all_found_text) > 0 or recursion_depth == 0:
-		print("getTextRegion found: ", all_found_text)
 
-	index = findIndex(text, all_found_text, find_nth=find_nth)
-	print("index %d of %s in %s" % (index, text, all_found_text))
-	if index != -1:
-		data_index = all_found_text_indices[index]
-		region = (data['left'][data_index], data['top'][data_index], data['width'][data_index], data['height'][data_index])
-		print("Found match for '%s': %s" % (text, all_found_text[index:index+len(text)]))
-		return region
-
+	found_region = getTextRegionFromImage(img, screen_region, text, ignore_case, only_a_z, find_nth)
+	if found_region:
+		return found_region
 	# Fall back to searching subsections of the given region recursively.
 	# In order to avoid intersecting the text we care about, it's done in both halves and thirds.
 	if not enable_recursion:
@@ -230,9 +207,60 @@ def getTextRegion(screen_region, text, ignore_case=True, only_a_z=True, find_nth
 	]
 	# TODO: switch to BFS instead of DFS.
 	for r in sub_regions:
-		got_region = getTextRegion(r, text, ignore_case=ignore_case, recursion_depth=recursion_depth+1)
-		if got_region:
-			return got_region # (got_region[0] + r[0], got_region[1] + r[1], got_region[2], got_region[3])
+		found_region = getTextRegion(r, text, ignore_case=ignore_case, recursion_depth=recursion_depth+1)
+		if found_region:
+			return found_region
+	return None
+
+# Cache results of getTextRegionFromImage to avoid running pytesseract on the same image multiple times.
+# All of the important input parameters to the method must match, not just the image and text.
+# It maps from a string (a SHA256 digest) to a region where text was found, or None if none was found.
+# TODO: unbounded cache growth is bad. Add LRU or a time limit.
+getTextRegionFromImage_cache = {}
+
+# getTextRegionFromImage returns a region containing the given text, or None.
+# If text is a string it will look for the first exact match, searching from the top left of the screen.
+# If text is an array of strings, it will try to find a match for all of them, but since it tokenizes on words it will only return the region for the first word. (e.g. "Talk to Old Lady" returns the region for "Talk"). Note that this doesn't respect the text actually being close together, only that it's found sequentially.
+# The provided region is only used for caching purposes.
+def getTextRegionFromImage(img, region, text, ignore_case=True, only_a_z=True, find_nth=0):
+	# All of the important input parameters to the method must match, not just the image and text. Otherwise the same
+	# image from different screen locations would get cached to the same value. Similarly other state like `menu_state`
+	# needs to be included.
+	params_str = str(region) + str(text) + " " + str(ignore_case) + " " + str(only_a_z) + " " + str(find_nth) + str(menu_state)
+	invocation_hash = hashlib.sha256(img.tobytes() + params_str.encode()).hexdigest()
+	if invocation_hash in getTextRegionFromImage_cache:
+		cached_region = getTextRegionFromImage_cache[invocation_hash]
+		print("getTextRegionFromImage search for " + str(text) + " hit cached region: " + str(cached_region))
+		return cached_region
+
+	#img.save("screenshots/getTextRegion.png") # TODO: useful for debugging
+	data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
+	#print(data)
+	boxes = len(data['text'])
+	all_found_text = []
+	all_found_text_indices = []  # indices in the original data from pytesseract.
+	for i in range(boxes):
+		found_text = data['text'][i].strip()
+		if not found_text:
+			continue
+		if ignore_case:
+			found_text = found_text.lower()
+		if only_a_z:
+			found_text = re.sub(r'[^a-zA-Z]', '', found_text)
+		all_found_text.append(found_text)
+		all_found_text_indices.append(i)
+	#if len(all_found_text) > 0:
+	#	print("getTextRegion found: ", all_found_text)
+
+	index = findIndex(text, all_found_text, find_nth=find_nth)
+	print("index %d of %s in %s" % (index, text, all_found_text))
+	if index != -1:
+		data_index = all_found_text_indices[index]
+		region = (data['left'][data_index], data['top'][data_index], data['width'][data_index], data['height'][data_index])
+		print("Found match for '%s': %s" % (text, all_found_text[index:index+len(text)]))
+		getTextRegionFromImage_cache[invocation_hash] = region
+		return region
+	getTextRegionFromImage_cache[invocation_hash] = None
 	return None
 
 # Returns the index of where arr1 array starts within arr2, or -1.
@@ -252,10 +280,24 @@ def findIndex(arr1, arr2, find_nth=0):
 		pass
 	return -1
 
-# Returns a string of text from the given region. This is meant to be used on a small region. Ideally a single line
-# of text.
+# Returns a string of text from the given region. This is meant to be used on a small region. Ideally a single line of text.
 def getText(region):
 	img = preprocess_image(pyautogui.screenshot(region=region))
+	return getTextFromImage(img)
+
+# Cache results of getTextFromImage to avoid running pytesseract on the same image multiple times.
+# It maps from a string (a SHA256 digest) to a string of text from the given image. The string may be empty.
+# TODO: unbounded cache growth is bad. Add LRU or a time limit.
+getTextFromImage_cache = {}
+
+# Returns a string of text from the given image. This is meant to be used on a small image. Ideally a single line of text.
+def getTextFromImage(img):
+	img_hash = hashlib.sha256(img.tobytes()).hexdigest()
+	if img_hash in getTextFromImage_cache:
+		cached_text = getTextFromImage_cache[img_hash]
+		print("getTextFromImage cache hit for text: " + cached_text)
+		return cached_text
+
 	#img.save("screenshots/getTextRegion.png") # TODO: useful for debugging
 	data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
 	boxes = len(data['text'])
@@ -266,9 +308,12 @@ def getText(region):
 			continue
 		all_found_text.append(found_text)
 	if not all_found_text:
+		getTextFromImage_cache[img_hash] = ""
 		return ""
-	print("getText found: ", all_found_text)
-	return " ".join(all_found_text)
+	#print("getText found: ", all_found_text)
+	output = " ".join(all_found_text)
+	getTextFromImage_cache[img_hash] = output
+	return output
 
 # region is a tuple of x,y,w,h
 # It is based on screen coordinates and can click outside of the game region.

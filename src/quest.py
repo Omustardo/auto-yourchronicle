@@ -17,7 +17,7 @@ def maybe_refresh_quest_list():
 		return False
 	for i in range(len(navigator.MENU_REGIONS__PARTY__QUEST__SELECTION_REGIONS)):
 		# There's a quest that's either in progress or available to start.
-		if "get" in navigator.getText(navigator.MENU_REGIONS__PARTY__QUEST__SELECTION_REGIONS[i]).lower()
+		if "get" in navigator.getText(navigator.MENU_REGIONS__PARTY__QUEST__SELECTION_REGIONS[i]).lower():
 			return True
 	# If we're here, there aren't any quests remaining.
 	_refresh_quest_list()
