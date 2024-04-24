@@ -89,24 +89,12 @@ def must(result):
 
 initialize()
 take_screenshot("init.png")
-
-#complete_button_region = navigator.getTextRegion(navigator.MENU_REGIONS__PARTY__QUEST__CURRENT_QUEST_ACTION_OPTIONS, "Complete", enable_recursion=True)
-# Either no active quests, or no quests are ready to complete.
-#if not complete_button_region:
-#	print("No quests are ready to complete")
-#	sys.exit()
-#print("Found button at=" + str(complete_button_region))
-#button_screen_region = (  complete_button_region[0] + navigator.MENU_REGIONS__PARTY__QUEST__CURRENT_QUEST_ACTION_OPTIONS[0],  complete_button_region[1] + navigator.MENU_REGIONS__PARTY__QUEST__CURRENT_QUEST_ACTION_OPTIONS[1],  complete_button_region[2],  complete_button_region[3])
-#take_gameregion_screenshot("quests_complete_area.png", button_screen_region)
-#take_screenshot("quests.png")
-
 #sys.exit()
 #partial_run.partial()
 for i in range(20000):
 	#ed1.ed1()
-	#quest.recover_all()
-	#quest.try_complete_all()
 	print("try_dark_ritual: ", ed_all.try_dark_ritual())
+	print(quest.full_quest_loop())
 	time.sleep(30)
 
 # TODO: I'm using pytesseract to identify the same images repeatedly. I could cache results to speed it up, especially

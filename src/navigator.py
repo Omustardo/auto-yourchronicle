@@ -50,10 +50,45 @@ MENU_REGIONS__MAIN__DUNGEON_ACTIONS = (GAME_REGION[0] + 727, GAME_REGION[1] + 10
 MENU_REGIONS__PARTY__TOP_BAR = (GAME_REGION[0] + 201, GAME_REGION[1] + 73, 650, 30)
 # The vertical strip containing all "Edit Complete Recover" quest options (and other options depending on quest state).
 MENU_REGIONS__PARTY__QUEST__CURRENT_QUEST_OPTIONS = (GAME_REGION[0] + 423, GAME_REGION[1] + 143, 175, 1000)
-# The thin vertical strip containing either "Give Up", "Complete", or "Select" as quest options.
+# The thin vertical strip containing quest buttons "Give Up", "Complete", or "Select" as quest options.
 MENU_REGIONS__PARTY__QUEST__CURRENT_QUEST_ACTION_OPTIONS = (GAME_REGION[0] + 476, GAME_REGION[1] + 143, 521-476, 500)
+# The squad buttons containing either "Give Up", "Complete", or "Select" as quest options.
+# TODO: increase if more than 5 squad slots is possible.
+MENU_REGIONS__PARTY__QUEST__SQUAD_OPTION_BUTTONS = [
+	(GAME_REGION[0] + 476, GAME_REGION[1] + 147 + 82*0, 522-476, 163-147),
+	(GAME_REGION[0] + 476, GAME_REGION[1] + 147 + 82*1, 522-476, 163-147),
+	(GAME_REGION[0] + 476, GAME_REGION[1] + 147 + 82*2, 522-476, 163-147),
+	(GAME_REGION[0] + 476, GAME_REGION[1] + 147 + 82*3, 522-476, 163-147),
+	(GAME_REGION[0] + 476, GAME_REGION[1] + 147 + 82*4, 522-476, 163-147),
+]
 # The list of available quests or "Empty". Includes the "Set" text area to the right.
 MENU_REGIONS__PARTY__QUEST__SELECTION = (GAME_REGION[0] + 600, GAME_REGION[1] + 144, 240, 500)
+# Roughly the same as MENU_REGIONS__PARTY__QUEST__SELECTION but broken down into individual quests and not including
+# "Set" to the right, because that has a different background color so OCR breaks.
+MENU_REGIONS__PARTY__QUEST__SELECTION_REGIONS = [
+	(GAME_REGION[0] + 602, GAME_REGION[1] + 145 + 24*0, 842-602 -42, 165-145),
+	(GAME_REGION[0] + 602, GAME_REGION[1] + 145 + 24*1, 842-602 -42, 165-145),
+	(GAME_REGION[0] + 602, GAME_REGION[1] + 145 + 24*2, 842-602 -42, 165-145),
+	(GAME_REGION[0] + 602, GAME_REGION[1] + 145 + 24*3, 842-602 -42, 165-145),
+	(GAME_REGION[0] + 602, GAME_REGION[1] + 145 + 24*4, 842-602 -42, 165-145),
+	(GAME_REGION[0] + 602, GAME_REGION[1] + 145 + 24*5, 842-602 -42, 165-145),
+	(GAME_REGION[0] + 602, GAME_REGION[1] + 145 + 24*6, 842-602 -42, 165-145),
+	(GAME_REGION[0] + 602, GAME_REGION[1] + 145 + 24*7, 842-602 -42, 165-145),
+	(GAME_REGION[0] + 602, GAME_REGION[1] + 145 + 24*8, 842-602 -42, 165-145),
+	(GAME_REGION[0] + 602, GAME_REGION[1] + 145 + 24*9, 842-602 -42, 165-145),
+]
+MENU_REGIONS__PARTY__QUEST__SET_REGIONS = [
+	(GAME_REGION[0] + 800, GAME_REGION[1] + 145 + 24*0, 42, 165-145),
+	(GAME_REGION[0] + 800, GAME_REGION[1] + 145 + 24*1, 42, 165-145),
+	(GAME_REGION[0] + 800, GAME_REGION[1] + 145 + 24*2, 42, 165-145),
+	(GAME_REGION[0] + 800, GAME_REGION[1] + 145 + 24*3, 42, 165-145),
+	(GAME_REGION[0] + 800, GAME_REGION[1] + 145 + 24*4, 42, 165-145),
+	(GAME_REGION[0] + 800, GAME_REGION[1] + 145 + 24*5, 42, 165-145),
+	(GAME_REGION[0] + 800, GAME_REGION[1] + 145 + 24*6, 42, 165-145),
+	(GAME_REGION[0] + 800, GAME_REGION[1] + 145 + 24*7, 42, 165-145),
+	(GAME_REGION[0] + 800, GAME_REGION[1] + 145 + 24*8, 42, 165-145),
+	(GAME_REGION[0] + 800, GAME_REGION[1] + 145 + 24*9, 42, 165-145),
+]
 
 MENU_REGIONS__ROUTINE__SUBMENU = (GAME_REGION[0] + 103, GAME_REGION[1] + 108, 90, 1020)
 
@@ -147,10 +182,10 @@ def getTextRegion(screen_region, text, ignore_case=True, only_a_z=True, find_nth
 	if only_a_z:
 		text = [re.sub(r'[^a-zA-Z]', '', t) for t in text]
 	# Assume text can't be smaller than some arbitrary minimum, so this method can be called recursively.
-	if screen_region[2] < 20 or screen_region[3] < 20 or recursion_depth > 10:
+	if screen_region[2] < 20 or screen_region[3] < 10 or recursion_depth > 10:
 		return None
 	img = preprocess_image(pyautogui.screenshot(region=screen_region))
-	img.save("screenshots/getTextRegion.png") # TODO: useful for debugging
+	#img.save("screenshots/getTextRegion.png") # TODO: useful for debugging
 	data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
 	#print(data)
 	boxes = len(data['text'])
@@ -217,8 +252,27 @@ def findIndex(arr1, arr2, find_nth=0):
 		pass
 	return -1
 
+# Returns a string of text from the given region. This is meant to be used on a small region. Ideally a single line
+# of text.
+def getText(region):
+	img = preprocess_image(pyautogui.screenshot(region=region))
+	#img.save("screenshots/getTextRegion.png") # TODO: useful for debugging
+	data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
+	boxes = len(data['text'])
+	all_found_text = []
+	for i in range(boxes):
+		found_text = data['text'][i].strip()
+		if not found_text:
+			continue
+		all_found_text.append(found_text)
+	if not all_found_text:
+		return ""
+	print("getText found: ", all_found_text)
+	return " ".join(all_found_text)
+
 # region is a tuple of x,y,w,h
 # It is based on screen coordinates and can click outside of the game region.
+# If offset_region is provided, it's x and y coordinates will be used to offset the given region.
 def clickRegion(region, clicks=1, interval=0.1, offset_region=None):
 	if offset_region:
 		region = (region[0] + offset_region[0], region[1] + offset_region[1], region[2], region[3])
