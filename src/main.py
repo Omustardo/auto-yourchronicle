@@ -87,15 +87,26 @@ def must(result):
 	if not result:
 		sys.exit()
 
+def infinite_dark_ritual():
+	for i in range(20000):
+		print("try_dark_ritual: ", ed_all.try_dark_ritual())
+		print(quest.full_quest_loop())
+		time.sleep(30)
+
+def infinite_ed1():
+	for i in range(20000):
+		ed1.ed1()
+		print(quest.full_quest_loop())
+		time.sleep(30)
+
 initialize()
 take_screenshot("init.png")
 #sys.exit()
-#partial_run.partial()
-for i in range(20000):
-	#ed1.ed1()
-	print("try_dark_ritual: ", ed_all.try_dark_ritual())
-	print(quest.full_quest_loop())
-	time.sleep(30)
+
+#infinite_dark_ritual()
+
+partial_run.partial()
+infinite_ed1()
 
 # TODO: I'm using pytesseract to identify the same images repeatedly. I could cache results to speed it up, especially
 #       for recursive searching. I'd need to save a map from a hash of the image data to the results. Definitely don't

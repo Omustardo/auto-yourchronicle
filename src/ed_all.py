@@ -13,7 +13,8 @@ def spend_sins():
 	# TODO: mouseover and press 'a' rather than this awkward loop. 
 	count = 0
 	for i in range(50):
-		if navigator.click_MainMenu_Main_InstantAction("Inspiration", enable_recursion=False): # "Inspiration+"
+		if navigator.click_MainMenu_Main_InstantAction("Smelly", enable_recursion=False): # "Smelly Sachet  Max+"
+		#if navigator.click_MainMenu_Main_InstantAction("Inspiration", enable_recursion=False): # "Inspiration+"
 			count = count + 1
 		else:
 			break
@@ -55,10 +56,15 @@ def greedAll():
 	clickConfig = {
 	  0: 5,
 	  1: 10,
+	  3: 2,
 	  4: 10,
+	  5: 3,
 	  6: -1,
 	  7: 3,
+	  12: 12,
 	  13: -1,
+	  14: -1,
+	  15: 1
 	}
 	greed(clickConfig, default_count=1)
 

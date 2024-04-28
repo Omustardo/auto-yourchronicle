@@ -121,9 +121,30 @@ def ed1_2_academic():
 		must(navigator.click_MainMenu_Main_UpgradeAction("Talk with Teacher")) # "Talk with Teacher".
 	print("Sleeping 5 minutes to build up gold")
 	time.sleep(60 * 5) 
+
 	# These next four aren't needed, but it saves having to deal with picking the right "Talk with Teacher" option later.
 	for i in range(4):
 		must(navigator.click_MainMenu_Main_UpgradeAction("Talk with Teacher")) # "Talk with Teacher".
+
+	# The remainder of this method isn't required, but is worthwhile once Alchemy is unlocked. Making smelly satchets to
+	# generate tons of Stench is a great way to generate alchemy points.
+	must(navigator.click_MainMenu_Main_UpgradeAction("Adventurers Guild"))
+	for i in range(3):
+		must(navigator.click_MainMenu_Main_UpgradeAction("Receptionist"))
+	must(navigator.click_MainMenu_Main_UpgradeAction("Delivery of Pelt"))
+	must(navigator.click_MainMenu_Main_UpgradeAction("House clean up"))
+	must(navigator.click_MainMenu_Main_DungeonAction("Hoarder's House"))
+	time.sleep(60) # TODO: do Unlock when available
+	must(navigator.click_MainMenu_Main_DungeonAction("Unlock"))
+	must(navigator.click_MainMenu_Main_DungeonAction("Sewer"))
+	time.sleep(60) # TODO: do Unlock when available
+	# There are two identically named interactions with Shady Merchant. The first takes dung and has 4 interactions.
+	# The second takes stench twice and then smelly satchets twice.
+	# We only need to do one of the stench interactions to be able to make smelly satchets, but might as finish off
+	# the dung ones too.
+	for i in range(4):
+		must(navigator.click_MainMenu_Main_UpgradeAction("Talk with Shady")) # "Talk with Shady  Merchant"
+	must(navigator.click_MainMenu_Main_UpgradeAction("Talk with Shady")) # "Talk with Shady  Merchant"
 
 def ed1_3_wait_for_graduation_rank():
 	delay = 15
