@@ -12,7 +12,7 @@
 # 2. Activate the virtual environment. This will change your shell to look like: "(src) username@/path/to/auto-yourchronicle/src$". If you aren't in an activated virtual environment, then things won't work.
 #   source bin/activate
 # 3. Install required modules:
-#   pip3 install pyautogui pytesseract opencv-python
+#   pip3 install pyautogui pytesseract opencv-python imageio[ffmpeg]
 # 4. Run the program:
 #   python3 -u main.py
 
@@ -20,6 +20,7 @@ import subprocess
 import time
 import os
 import pyautogui
+import threading
 import pytesseract
 import sys
 
@@ -28,6 +29,8 @@ import quest
 import ed1
 import ed_all
 import partial_run
+
+import debug_video
 
 DEBUG_SCREENSHOT_DIR = "screenshots/"
 
@@ -69,10 +72,14 @@ def initialize():
 		os.mkdir(DEBUG_SCREENSHOT_DIR)
 		print("Created debug screenshot directory: ", DEBUG_SCREENSHOT_DIR)
 
+	# Start thread for capturing frames
+	capture_thread = threading.Thread(target=debug_video.populate_buffer)
+	capture_thread.start()
+
 # Save a screenshot to the local "screenshots/" directory.
 def take_screenshot(output_filename):
 	img = pyautogui.screenshot(region=navigator.GAME_REGION)
-	img.save("screenshots/" + output_filename)
+	img.save("debug/" + output_filename)
 
 # Save a screenshot based on a region relative to navigator.GAME_REGION
 def take_gameregion_screenshot(output_filename, region):
@@ -81,7 +88,7 @@ def take_gameregion_screenshot(output_filename, region):
 		region[2],
 		region[3])
 	img = pyautogui.screenshot(region=r)
-	img.save("screenshots/" + output_filename)
+	img.save("debug/" + output_filename)
 
 def must(result):
 	if not result:
@@ -101,12 +108,17 @@ def infinite_ed1():
 
 initialize()
 take_screenshot("init.png")
-#sys.exit()
+#print("@@@ TEXT=" + navigator.getText(navigator.ScreenRegionFromGameRegion((387,190, 100, 26))))
+
+#time.sleep(5)
+#debug_video.save_video()
+
 
 #infinite_dark_ritual()
 
 partial_run.partial()
 infinite_ed1()
+
 
 # TODO: I'm using pytesseract to identify the same images repeatedly. I could cache results to speed it up, especially
 #       for recursive searching. I'd need to save a map from a hash of the image data to the results. Definitely don't
@@ -133,3 +145,6 @@ infinite_ed1()
 
 #TODO: minimize / maximize sub-menus. e.g. the "Sell" menu.
 # It seems like tesseract can detect ">Sell" when it's minimized. Not sure if this is consistent enough.
+
+#TODO: Consider making a GUI that allows creating new regions for searching, words to search for, etc.
+#  https://stackoverflow.com/a/71946454/3184079 is a good example of the basics

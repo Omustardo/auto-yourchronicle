@@ -26,11 +26,7 @@ def partial():
 	ed_all.reincarnate_WillingRevenge()
 	pass
 
-
 # TODO: do Farmwork for the one sandwich. This would speed up leather stuff, and avoid the use of queue slots.
 
 # TODO: implement waiting for an action to be ready. Maybe all of the "navigator.click_" methods need to return a region instead of actually clicking?
 
-# TODO: in graduation wait loop, if one level off then switch to party 3?
-
-# TODO: Somehow I'm getting stuck after "don't play". It's minimizing the "> Home" menu, which means it can't "Talk with Father". 

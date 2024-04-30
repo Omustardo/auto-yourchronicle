@@ -506,22 +506,15 @@ def click_MainMenu_Ritual_ConfirmDarkRitual():
 
 
 def get_current_rank():
-	# Location of the "Rank XX => XX"
 	if not click_MainMenu_Option("Ritual"):
 		print("Failed to get into Ritual menu")
 		return None
-	screen_region = ScreenRegionFromGameRegion((387,190, 100, 26))
 	img = preprocess_image(pyautogui.screenshot(region=screen_region))
-	data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
-	#print(data)
-	boxes = len(data['text'])
-	for i in range(boxes):
-		found_text = data['text'][i].strip()
-		if not found_text:
-			continue
-		found_text = re.sub(r'[^0-9]', '', found_text)
-		if len(found_text) > 0:
-			return int(found_text)			
+	# Location of the "Rank XX ", cutting off the right side's " => XX"
+	found_text = getText(ScreenRegionFromGameRegion((387,190, 100, 26)))
+	found_text = re.sub(r'[^0-9]', '', found_text)
+	if len(found_text) > 0:
+		return int(found_text)
 	print("Failed to find Rank")
 	return None
 
