@@ -12,6 +12,9 @@ import datetime
 import ed_all
 import navigator
 
+import debug_video
+
+
 def must(result):
 	if not result:
 		sys.exit()
@@ -159,7 +162,8 @@ def ed1_3_wait_for_graduation_rank():
 		current_rank = navigator.get_current_rank()
 		if i % 10 == 0:
 			print("Current rank:", current_rank)
-		if not current_rank:
+		# 0 is a possible rank, and Python's truthiness is a terrible trap.
+		if not current_rank and current_rank != 0:
 			print("Failed to find current rank")
 			return False
 		if current_rank >= 39:

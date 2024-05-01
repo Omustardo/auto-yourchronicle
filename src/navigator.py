@@ -11,6 +11,8 @@ from PIL import ImageEnhance,ImageFilter,Image
 from itertools import chain
 import hashlib
 
+import debug_video
+
 # Where to put the game window.
 WINDOW_TOP_LEFT = (1400, 100)
 
@@ -509,14 +511,14 @@ def get_current_rank():
 	if not click_MainMenu_Option("Ritual"):
 		print("Failed to get into Ritual menu")
 		return None
-	img = preprocess_image(pyautogui.screenshot(region=screen_region))
 	# Location of the "Rank XX ", cutting off the right side's " => XX"
 	found_text = getText(ScreenRegionFromGameRegion((387,190, 100, 26)))
+	# OCR sometimes has trouble with zero vs o. I've only seen this with "Rank O" but it is theoretically possible with
+	# "Rank 10" and others.
+	found_text = found_text.replace('O', '0')
 	found_text = re.sub(r'[^0-9]', '', found_text)
 	if len(found_text) > 0:
 		return int(found_text)
-	print("Failed to find Rank")
-	return None
 
 # Determines whether the provided image has a gray background. A dark background generally means that a button is not clickable. The provided region must be based on a region of a screen, rather than being relative to the game window.
 def is_region_grayed_out(region):
