@@ -10,6 +10,9 @@ import navigator
 import ed1
 import ed_all
 
+import debug_video
+
+
 def must(result):
 	if not result:
 		sys.exit()

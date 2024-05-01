@@ -32,7 +32,7 @@ import partial_run
 
 import debug_video
 
-DEBUG_SCREENSHOT_DIR = "screenshots/"
+DEBUG_DIR = "debug/"
 
 # TODO: set up logging. https://stackoverflow.com/a/28330410/3184079
 
@@ -68,15 +68,16 @@ def initialize():
 	time.sleep(0.1)
 	print("YourChronicle is the active window.")
 	
-	if not os.path.exists(DEBUG_SCREENSHOT_DIR):
-		os.mkdir(DEBUG_SCREENSHOT_DIR)
-		print("Created debug screenshot directory: ", DEBUG_SCREENSHOT_DIR)
+	if not os.path.exists(DEBUG_DIR):
+		os.mkdir(DEBUG_DIR)
+		print("Created debug directory: ", DEBUG_DIR)
 
 	# Start thread for capturing frames
 	capture_thread = threading.Thread(target=debug_video.populate_buffer)
+	capture_thread.daemon = True  # Set the thread as a daemon so that `sys.exit()` will also kill it.
 	capture_thread.start()
 
-# Save a screenshot to the local "screenshots/" directory.
+# Save a screenshot to the local "debug/" directory.
 def take_screenshot(output_filename):
 	img = pyautogui.screenshot(region=navigator.GAME_REGION)
 	img.save("debug/" + output_filename)
