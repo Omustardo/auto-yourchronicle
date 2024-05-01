@@ -12,8 +12,6 @@ import datetime
 import ed_all
 import navigator
 
-import debug_video
-
 
 def must(result):
 	if not result:

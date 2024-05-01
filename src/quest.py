@@ -2,8 +2,6 @@ import time
 
 import navigator
 
-import debug_video
-
 
 def full_quest_loop():
 	if not recover_all():

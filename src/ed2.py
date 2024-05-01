@@ -8,9 +8,6 @@
 #  getting scrap is slow from Ruins, but even slower from DK Farm with Sword Spirit + Iron Golem
 # Graduate and finish (you can graduate early, as long as you have the rusty sword). The game will let you graduate before getting the sword, which makes ED2 unwinnable.
 
-import debug_video
-
-
 
 def must(result):
 	if not result:

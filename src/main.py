@@ -72,11 +72,6 @@ def initialize():
 		os.mkdir(DEBUG_DIR)
 		print("Created debug directory: ", DEBUG_DIR)
 
-	# Start thread for capturing frames
-	capture_thread = threading.Thread(target=debug_video.populate_buffer)
-	capture_thread.daemon = True  # Set the thread as a daemon so that `sys.exit()` will also kill it.
-	capture_thread.start()
-
 # Save a screenshot to the local "debug/" directory.
 def take_screenshot(output_filename):
 	img = pyautogui.screenshot(region=navigator.GAME_REGION)
@@ -109,11 +104,6 @@ def infinite_ed1():
 
 initialize()
 take_screenshot("init.png")
-#print("@@@ TEXT=" + navigator.getText(navigator.ScreenRegionFromGameRegion((387,190, 100, 26))))
-
-#time.sleep(5)
-#debug_video.save_video()
-
 
 #infinite_dark_ritual()
 
@@ -130,14 +120,9 @@ infinite_ed1()
 
 # TODO: take named screenshots at each step to be used for unit testing
 
-# TODO: how to make text recognition more reliable, rather than dealing with fuzziness and fallbacks.
-
 # TODO: save a screenshot with regions and their centerpoints highlighted. Very useful for debugging
 
-# TODO: clean text (only alphanumeric? or convert stuff to closest letters, e.g. | to L
-
-# TODO: "click to the right of". Find text and then search only to the right of it. Useful for something like:
-# find "1st squad" and then click the "Complete" button to the right of it.
+# TODO: clean text (only alphanumeric? or convert stuff to closest letters, e.g. | to L. 0 vs O is tough.
 
 #TODO: find text, check color of a few pixels. See if it's dark but not black. Or find the average color in a small block?
 # Maybe not needed? It seems like tesseract doesn't find text in greyed out areas at all.
