@@ -30,8 +30,6 @@ import ed1
 import ed_all
 import partial_run
 
-import debug_video
-
 DEBUG_DIR = "debug/"
 
 # TODO: set up logging. https://stackoverflow.com/a/28330410/3184079

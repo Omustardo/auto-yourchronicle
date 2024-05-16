@@ -11,8 +11,6 @@ from PIL import ImageEnhance,ImageFilter,Image
 from itertools import chain
 import hashlib
 
-import debug_video
-
 # Where to put the game window.
 WINDOW_TOP_LEFT = (1400, 100)
 
