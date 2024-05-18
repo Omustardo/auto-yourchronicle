@@ -3,7 +3,7 @@ import sys
 import pyautogui
 
 import navigator
-
+import common
 
 def must(result):
 	if not result:

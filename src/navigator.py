@@ -11,6 +11,8 @@ from PIL import ImageEnhance,ImageFilter,Image
 from itertools import chain
 import hashlib
 
+import common
+
 # Where to put the game window.
 WINDOW_TOP_LEFT = (1400, 100)
 
@@ -184,7 +186,7 @@ def getTextRegion(screen_region, text, ignore_case=True, only_a_z=True, find_nth
 	# Assume text can't be smaller than some arbitrary minimum, so this method can be called recursively.
 	if screen_region[2] < 20 or screen_region[3] < 10 or recursion_depth > 10:
 		return None
-	img = preprocess_image(pyautogui.screenshot(region=screen_region))
+	img = preprocess_image(common.screenshot(region=screen_region))
 
 	found_region = getTextRegionFromImage(img, screen_region, text, ignore_case, only_a_z, find_nth)
 	if found_region:
@@ -282,7 +284,7 @@ def findIndex(arr1, arr2, find_nth=0):
 
 # Returns a string of text from the given region. This is meant to be used on a small region. Ideally a single line of text.
 def getText(region):
-	img = preprocess_image(pyautogui.screenshot(region=region))
+	img = preprocess_image(common.screenshot(region=region))
 	return getTextFromImage(img)
 
 # Cache results of getTextFromImage to avoid running pytesseract on the same image multiple times.
@@ -520,7 +522,7 @@ def get_current_rank():
 
 # Determines whether the provided image has a gray background. A dark background generally means that a button is not clickable. The provided region must be based on a region of a screen, rather than being relative to the game window.
 def is_region_grayed_out(region):
-	img = preprocess_image(pyautogui.screenshot(region=region))
+	img = preprocess_image(common.screenshot(region=region))
 	return is_image_grayed_out(img)
 
 def is_image_grayed_out(image):

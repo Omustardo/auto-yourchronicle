@@ -24,6 +24,7 @@ import threading
 import pytesseract
 import sys
 
+import common
 import navigator
 import quest
 import ed1
@@ -73,7 +74,7 @@ def initialize():
 
 # Save a screenshot to the local "debug/" directory.
 def take_screenshot(output_filename):
-	img = pyautogui.screenshot(region=navigator.GAME_REGION)
+	img = common.screenshot(region=navigator.GAME_REGION)
 	img.save("debug/" + output_filename)
 
 # Save a screenshot based on a region relative to navigator.GAME_REGION
@@ -82,7 +83,7 @@ def take_gameregion_screenshot(output_filename, region):
 		region[1] + navigator.GAME_REGION[1],
 		region[2],
 		region[3])
-	img = pyautogui.screenshot(region=r)
+	img = common.screenshot(region=r)
 	img.save("debug/" + output_filename)
 
 def must(result):
