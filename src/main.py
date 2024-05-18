@@ -12,7 +12,7 @@
 # 2. Activate the virtual environment. This will change your shell to look like: "(src) username@/path/to/auto-yourchronicle/src$". If you aren't in an activated virtual environment, then things won't work.
 #   source bin/activate
 # 3. Install required modules:
-#   pip3 install pyautogui pytesseract opencv-python imageio[ffmpeg]
+#   pip3 install pyautogui pytesseract opencv-python imageio[ffmpeg] pillow
 # 4. Run the program:
 #   python3 -u main.py
 
@@ -33,6 +33,7 @@ import partial_run
 DEBUG_DIR = "debug/"
 
 # TODO: set up logging. https://stackoverflow.com/a/28330410/3184079
+#   Logging with indentation based on method calls would be cool.
 
 def initialize():
 	# List open windows and ensure that YourChronicle is among them.
