@@ -5,6 +5,31 @@ This code isn't really meant to be run as-is. It's meant as an example or
 starting point for anyone else who's interested in automation for YourChronicle
 or automation in general.
 
+## Usage
+
+```shell
+git clone https://github.com/omustardo/auto-yourchronicle.git
+cd auto-yourchronicle
+chmod +x run.sh
+./run.sh
+```
+
+The first time it runs, it will download all of the python dependencies 
+documented in `src/requirements.txt`.
+
+## Development
+
+Start by making sure you can `run.sh` as documented above in the Usage section.
+This will ensure your python virtual environment is set up.
+
+Modifying the Python code needs no explanation, and you can continue to use 
+`run.sh` to run it. If you need to add new python dependencies, you'll need to:
+ 
+1. Enter the virtual environment : `source ./src/venv/bin/activate`
+2. Install new deps : `pip3 install foo`
+3. Update the list of dependencies : `pip3 freeze > .
+   /src/requirements.txt`
+
 ## Architecture
 
 Your Chronicle is very consistent about where its UI elements go, so I always
