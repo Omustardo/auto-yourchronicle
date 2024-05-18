@@ -13,7 +13,11 @@ fi
 source ./src/venv/bin/activate
 
 # Install the list of dependencies.
-pip3 install -r ./src/requirements.txt
+# This could be done with `pip3 install -r ./src/requirements.txt`
+#
+# It's done in a more complex way in order to reduce spammy logs when packages are already installed.
+# https://github.com/pypa/pip/issues/5900#issuecomment-490216395
+set -o pipefail; pip install -r ./src/requirements.txt | { grep -v "already satisfied" || :; }
 
 # Run the program.
 # -u is unbuffered mode, to ensure print statements output immediately.

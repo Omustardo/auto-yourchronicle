@@ -2,7 +2,7 @@ Automation for the incremental idle game Your Chronicle.
 https://store.steampowered.com/app/1546320/Your_Chronicle/
 
 This code isn't really meant to be run as-is. It's meant as an example or
-starting point for anyone else who's interested in automation for YourChronicle
+starting point for anyone else who's interested in automation for Your Chronicle
 or automation in general.
 
 TODO: add a video of automation in action
@@ -16,12 +16,13 @@ TODO: add a video of automation in action
 
 This was developed on Debian 12. It should work for other linux 
 distros without modification. With modifications to the programs used in 
-calls to `subprocess.run`, it should work for non-linux systems.
+calls to `subprocess.run` as well updates to `run.sh`, it should work for 
+non-linux systems.
 
 The programs used through `subprocess.run` are:
 
 * `wmctrl` for moving and resizing the game window.
-* `xdotool` for verifying that the YourChronicle window is active.
+* `xdotool` for verifying that the "Your Chronicle" window is active.
 * `scrot` for capturing screenshots. The screenshot function from pyautogui 
    is not reliable. https://gist.github.com/Omustardo/25d14d0bcc8acf3c979b6505c2f136c7
 
