@@ -18,7 +18,7 @@ def maybe_refresh_quest_list():
 		return False
 	for i in range(len(navigator.MENU_REGIONS__PARTY__QUEST__SELECTION_REGIONS)):
 		# There's a quest that's either in progress or available to start.
-		if "get" in navigator.getText(navigator.MENU_REGIONS__PARTY__QUEST__SELECTION_REGIONS[i]).lower():
+		if "get" in navigator.get_text(navigator.MENU_REGIONS__PARTY__QUEST__SELECTION_REGIONS[i]).lower():
 			return True
 	# If we're here, there aren't any quests remaining.
 	_refresh_quest_list()
@@ -44,9 +44,9 @@ def try_complete_all():
 		return False
 	for i in range(len(navigator.MENU_REGIONS__PARTY__QUEST__SQUAD_OPTION_BUTTONS)):
 		region = navigator.MENU_REGIONS__PARTY__QUEST__SQUAD_OPTION_BUTTONS[i]
-		if navigator.getTextRegion(region, "Complete", enable_recursion=False):
+		if navigator.get_text_region(region, "Complete", enable_recursion=False):
 			print("Marking squad slot #" + str(i+1) + " complete")
-			navigator.clickRegion(region)
+			navigator.click_region(region)
 			time.sleep(0.2)
 	return True
 
@@ -71,9 +71,9 @@ def get_available_quests():
 		# showing up on the far right.
 		# "Get" is there for any quest that isn't Empty, but checking for it ensures that there's actually a quest in the
 		# region. Otherwise we could be looking at an entirely blank region.
-		if (not navigator.getTextRegion(navigator.MENU_REGIONS__PARTY__QUEST__SELECTION_REGIONS[i], "Empty", enable_recursion=False) and
-				"get" in navigator.getText(navigator.MENU_REGIONS__PARTY__QUEST__SELECTION_REGIONS[i]).lower() and
-		 		not navigator.getTextRegion(navigator.MENU_REGIONS__PARTY__QUEST__SET_REGIONS[i], "Set", enable_recursion=False)):
+		if (not navigator.get_text_region(navigator.MENU_REGIONS__PARTY__QUEST__SELECTION_REGIONS[i], "Empty", enable_recursion=False) and
+				"get" in navigator.get_text(navigator.MENU_REGIONS__PARTY__QUEST__SELECTION_REGIONS[i]).lower() and
+		 		not navigator.get_text_region(navigator.MENU_REGIONS__PARTY__QUEST__SET_REGIONS[i], "Set", enable_recursion=False)):
 		 		available_quests.append(i)
 	return available_quests
 
@@ -85,7 +85,7 @@ def get_available_squads():
 	available_squads = []
 	for i in range(len(navigator.MENU_REGIONS__PARTY__QUEST__SQUAD_OPTION_BUTTONS)):
 		region = navigator.MENU_REGIONS__PARTY__QUEST__SQUAD_OPTION_BUTTONS[i]
-		if navigator.getTextRegion(region, "Select", enable_recursion=False):
+		if navigator.get_text_region(region, "Select", enable_recursion=False):
 			available_squads.append(i)
 	return available_squads
 
@@ -114,13 +114,13 @@ def try_start_new():
 		# Select the squad that's available for questing.
 		quest_index = available_quests[i]
 		squad_index = available_squads[i]
-		navigator.clickRegion(navigator.MENU_REGIONS__PARTY__QUEST__SQUAD_OPTION_BUTTONS[squad_index])
+		navigator.click_region(navigator.MENU_REGIONS__PARTY__QUEST__SQUAD_OPTION_BUTTONS[squad_index])
 		time.sleep(0.2)
 		# Select the quest to start.
-		navigator.clickRegion(navigator.MENU_REGIONS__PARTY__QUEST__SELECTION_REGIONS[quest_index])
+		navigator.click_region(navigator.MENU_REGIONS__PARTY__QUEST__SELECTION_REGIONS[quest_index])
 		time.sleep(0.2)
 		# Press "OK" to confirm.
-		navigator.clickRegion(navigator.MENU_REGIONS__PARTY__QUEST__SET_REGIONS[quest_index])
+		navigator.click_region(navigator.MENU_REGIONS__PARTY__QUEST__SET_REGIONS[quest_index])
 		time.sleep(0.2)
 		started_count = started_count + 1
 

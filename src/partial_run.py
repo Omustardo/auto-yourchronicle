@@ -18,9 +18,9 @@ def must(result):
 def partial():
 	ed1.init()
 
-	#ed1.ed1_0_village()
-	#ed1.ed1_1_forest()
-	#ed1.ed1_2_academic()
+	ed1.ed1_0_village()
+	ed1.ed1_1_forest()
+	ed1.ed1_2_academic()
 	must(ed1.ed1_3_wait_for_graduation_rank())
 	ed1.ed1_4_finishup()
 	ed_all.spend_sins()
