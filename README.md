@@ -50,6 +50,14 @@ Modifying the Python code needs no explanation, and you can continue to use
 2. Install new deps : `pip3 install foo`
 3. Update the list of dependencies : `pip3 freeze > ./src/requirements.txt`
 
+### Debugging
+
+I used OBS to record both the terminal window and the game window. It's only
+about 1GB/h and it's probably the most effective way to find rare issues.
+
+Saving screenshots to disk is also a great way to find issues, and is how I 
+detected a bug in how PIL takes screenshots: https://gist.github.com/Omustardo/25d14d0bcc8acf3c979b6505c2f136c7
+
 ## Architecture
 
 Your Chronicle is very consistent about where its UI elements go, so I always

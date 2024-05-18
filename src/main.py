@@ -102,13 +102,6 @@ take_screenshot("init.png")
 partial_run.partial()
 infinite_ed1()
 
-# TODO: I'm using pytesseract to identify the same images repeatedly. I could cache results to speed it up, especially
-#       for recursive searching. I'd need to save a map from a hash of the image data to the results. Definitely don't
-#       save the full screenshot. Often irrelevant parts of the image change (e.g. red progressbar backgrounds on
-#       buttons). Should I strip these out?
-
-# TODO: consider keeping a buffer of the N most recent screenshots, and dump them to file if there's an error. Or just a short video clip?
-
 # TODO: take named screenshots at each step to be used for unit testing
 
 # TODO: save a screenshot with regions and their centerpoints highlighted. Very useful for debugging
