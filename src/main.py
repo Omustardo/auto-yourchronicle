@@ -1,20 +1,4 @@
 # Automation for the game YourChronicle
-# It was made on Debian 12, but may work for other linux distros. It would some work to run on Windows, but probably not too much.
-#
-# Required programs:
-#  wmctrl for moving and resizing the game window.
-#  xdotool for verifying that the YourChronicle window is active.
-#
-# Setup:
-# 1. Create a python virtual environment so we can add python modules without affecting the rest of the computer:
-#   Download this github repo and move to the `auto-yourchronicle/src/` dir.
-#   python3 -m venv auto-yourchronicle/
-# 2. Activate the virtual environment. This will change your shell to look like: "(src) username@/path/to/auto-yourchronicle/src$". If you aren't in an activated virtual environment, then things won't work.
-#   source bin/activate
-# 3. Install required modules:
-#   pip3 install pyautogui pytesseract opencv-python imageio[ffmpeg] pillow
-# 4. Run the program:
-#   python3 -u main.py
 
 import subprocess
 import time
