@@ -5,6 +5,26 @@ This code isn't really meant to be run as-is. It's meant as an example or
 starting point for anyone else who's interested in automation for YourChronicle
 or automation in general.
 
+TODO: add a video of automation in action
+
+## Requirements
+
+1. Linux. Tested on Debian 12, but others should work.
+2. `sudo apt install wmctrl xdotool scrot`
+
+### Detailed Requirements
+
+This was developed on Debian 12. It should work for other linux 
+distros without modification. With modifications to the programs used in 
+calls to `subprocess.run`, it should work for non-linux systems.
+
+The programs used through `subprocess.run` are:
+
+* `wmctrl` for moving and resizing the game window.
+* `xdotool` for verifying that the YourChronicle window is active.
+* `scrot` for capturing screenshots. The screenshot function from pyautogui 
+   is not reliable. https://gist.github.com/Omustardo/25d14d0bcc8acf3c979b6505c2f136c7
+
 ## Usage
 
 ```shell
@@ -27,8 +47,7 @@ Modifying the Python code needs no explanation, and you can continue to use
  
 1. Enter the virtual environment : `source ./src/venv/bin/activate`
 2. Install new deps : `pip3 install foo`
-3. Update the list of dependencies : `pip3 freeze > .
-   /src/requirements.txt`
+3. Update the list of dependencies : `pip3 freeze > ./src/requirements.txt`
 
 ## Architecture
 
