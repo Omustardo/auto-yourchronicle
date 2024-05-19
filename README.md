@@ -5,7 +5,9 @@ This code isn't really meant to be run as-is. It's meant as an example or
 starting point for anyone else who's interested in automation for Your Chronicle
 or automation in general.
 
-TODO: add a video of automation in action
+## Demo
+
+Completing ED1 twice in a row: https://youtu.be/MNwzsI3IOA8
 
 ## Requirements
 
