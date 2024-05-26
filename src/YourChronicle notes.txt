@@ -26,61 +26,20 @@
 
 Remember:
 * Use the ultimate love, villain, and justice titles for the boosts after reincarnating
+* In every run, once you get to Academic City, be sure to unlock Smelly Satchet and make many of them. This generates Stench for Alchemy.
+* use fire drake if stats are needed.
 
-TODO: increase resource caps
-* stone x120
-* wreath (for Destiny regen, +0.01 each). 100 == 1 regen/s. Meh. Need 10k+ to be of any use. Still, need a load of destiny to do Fate so maybe worthwhile?
-TODO: Resource caps for Alchemy: 
-* smelly satchet for stench
-* wood for apples
-TODO: always more inspiration
-
-## Farm for alchemy. Need to mix up items in general, but to start:
-DK is probably best.
-* Silver Scale Dragon : Runes at 8.75k. Craft into Rune stones.
-* Golden Slime : Rare Metal at 314k
-* Maybe focus on dragons liver and claws?
-* Phantom Whale - 5 pelt, 5 wheat, 5 stone, 5 dung, 5 herb (all common)
-Summons:
-* Mithril Bird : mithril at 460k. Is this worth the slot?
-* Immortal Rat : dung for manure, which sells for 22k and 30k respectively.
-* Treant + Tree Golem : make and sell firewood, donate the cash. need to get those crystal shards.
-* Elder Treant (also need tree golem): Generate apples. 12.2k each
-* Rock Bird (for stone to make rune stones)
-Misc:
-* Cap smelly satchets to get stench. It's 8k each.
-* Dried fruit is 11.5k. It takes 3 dates and 3 apples (~12k per) to make it, so it's absolutely not worthwhile.
-* Collect Spirit Water (to make rune stones)
-
-Ideal Alchemy:
-* Raise max Smelly Satchet to get fast Stench. No requirements except initial creation of the satchets.
-* Raise max Wood to get fast Apples. Requires using Elder Treant for apples. Maybe requires Tree Golem for initial wood generation, and either not using up wood or 1 slot on chopping wood.
-* 
-
-Alchemy Setups:
-* 4.97b in 624 minutes == 7.96 million/minute
-* Dungeon: Demon King - Fort
-* Loop: 2 Draw Spirit Water, 1 Carve Wooden Statue, 1 Chop Wood, 3 Create Goddess Statue, 2 Pick Flower, 1 Weave Wreaths
-* Other: 1 Make Firewood, 1 Make Bread, 250 Sell Firewood, 1 Carve Rune Stone
-* Active Summons: You (use charge crash), Silver Scale Dragon (5 runes), Golden Slime (rare metal), Mithril Bird (
-* Passive Summons: Genius Golem (for increased research drop from Luck), Rune Lizard (for increased research drop from Luck), Elder Treant (wood generates apples), Tree Golem (wood regen, goddess statue crafting), Rock Bird (wooden statue crafting, 0.2 stone regen is ok, can probably swap this one out?)
-* The amount of slots on goddess statues vs their return rate is bad, but I don't see anything better yet.
-* Alchemy settings: use all goddess statues. Since wood statue max is 10 and goddess statues take 3 each, you can donate down to 9.
-* TODO: check Rune Stone alchemy rate with Phantom Whale DK farming. Might want to bring back Variant Octopus for more runes.
-
-Alchemy Rates (per hour)
-* 57m : Rune Stone (6.7 per craft). DK farming with Silver Scale Dragon + Variant Octopus. Rock Bird for stone regen. 2 queue slots for spirit water and carve rune stone. TODO: try with Phantom Whale DK farming for stone.
-* 39m : Rare Metal. DK farming with Golden Slime.
-* 32m : Apple. (770 wood with Elder Treant giving 0.77 regen/s)
-* 20m : Stench. Smelly satchet regen (50 satchets giving 0.5 regen/s)
-* 19m : Mithril. DK farming with Mithril Bird, and the natural regen over time. TODO: what's the breakdown?
-* 19m : Goddess Statue (12.5 per craft using summons). 5 queue slots for: wood, wooden statue, flower, wreath, goddess statue. Also chop wood, but I'm not sure if this is actually needed since I'm also making firewood separately.
-* 26m : Dragon Claw. DK farming with Silver Scale Dragon (1.1 at 29% drop rate)
-* 24m : Dragon Liver. DK farming with Silver Scale Dragon (1.1 at 2.9% drop rate)
+TODOs:
+* increase resource caps
+  * stone x120
+  * wreath (for Destiny regen, +0.01 each). 100 == 1 regen/s. Meh. Need 10k+ to be of any use. Still, need a load of destiny to do Fate so maybe worthwhile for automating runs involving Magic City?
+  * always more inspiration gain %
+* beat serious spearman
 
 
-TODO: beat serious spearman
-TODO: remember to use fire drake if stats are needed.
+# Long term TODOs
+* all three wands
+* medicine x500 or more. (so I can buy it all one time and then not need to use a sloth slot)
 
 
 Full reincarnation / sin farming:
@@ -138,17 +97,17 @@ For Demon Kingdom (ending #4) I've taken Norn, Iari. need (Fenia part2).
 	With Iari, he kills the king with the sword.
 	With Fenia, I've said that she should kill the Demon King. need (Respect your will)
 
+---
+
 # Sin -> Regen -> Profit
-Spending sin to increase inventory size is an extremely good combination with summons that give effects to those items.
+Spending sin to increase inventory size is a great combination with summons that give effects to those items.
 * Elder Treant = Apple max +1 per Wood, Apple regen +0.001 per wood, Physical/Magical/Special Seed Max +10 per apple
   Getting 1000 wood would result in 1 apple regen per second.
 * Queen Bee = Destiny regen +0.009 per Honey
   1000 honey is 9 destiny regen. Not great. If sin farming becomes easy later, it may be worthwhile, but probably not. Need to be getting hundreds of destiny per second at minimum.
 * Virtue and Malice are not useful for quick sin farming runs, but they are very nice for farming inspiration.
 
-# Long term TODOs
-* all three wands
-* medicine x500 or more. (so I can buy it all one time and then not need to use a sloth slot)
+---
 
 # DK T1 item farming
 Adjust the party so that demon king can summon and then immediately get killed. Golden Slime and then You is a good series. Watch out for attack speed changes messing it up.
