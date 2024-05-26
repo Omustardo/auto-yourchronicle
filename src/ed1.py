@@ -23,13 +23,13 @@ def must(result):
 # TODO: minimize the use of the queue.
 
 # Requirements:
-# # Title: ? God's Guidance for destiny regen?
+# # Title: God's Guidance for destiny regen. Pioneer of Destiny for inspiration gain.
 # # Queue:
-# ## Loop: craft durable leather, tan pelt, farmwork, pray
-# ## Other: Make Firewood
+# ## Loop: craft durable leather, tan pelt, farmwork, pray. (if Alchemy unlocked: create smelly satchets)
+# ## Other: Make Firewood. (optional: sell firewood, donate gold)
 # # Party slot 2:
-# ## Immortal Rat (pelt regen), Tree Golem (wood regen), Golden Slime (gold regen), Troll (tanning and durable leather boost),
-# ## Optional Party:  Elder Treant (apple regen), Forest Fairy (herb regen), Charity Larva (pray bonus), Rock Bird (stone regen, ), Fire Drake (stat boost),
+# ## Immortal Rat (pelt regen), Tree Golem (wood regen), Golden Slime (gold regen), Troll (tanning and durable leather boost), (if alchemy unlocked: Hell Butterfly for making smelly satchets)
+# ## Optional Party:  Elder Treant (apple regen), Forest Fairy (herb regen), Charity Larva (pray bonus), Rock Bird (stone regen), Fire Drake (stat boost), Treant (make firewood boost)
 # # Party slot 3:
 # ## Anything that boosts sacred ritual and dark ritual.
 #

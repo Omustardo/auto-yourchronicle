@@ -55,14 +55,14 @@ def greed(clickConfig, default_count=0):
 def greedAll():
 	# Click to consume some of each research. Use the click config to customize the value. Negative to skip.
 	clickConfig = {
-	  0: 5,
-	  1: 10,
+	  0: 2,
+	  1: 2,
 	  3: 2,
-	  4: 10,
+	  4: 6,
 	  5: 3,
 	  6: -1,
 	  7: 3,
-	  12: 12,
+	  12: 10,
 	  13: -1,
 	  14: -1,
 	  15: 1
@@ -76,6 +76,8 @@ def gluttonyAll():
 		navigator.click(756, 143 + i * 24, clicks=25)
 
 def astral_kill_all():
+	# This method is obsoleted by the "Kill all" upgrade in the ruby shop.
+	return True
 	if not navigator.click_MainMenu_Main_Area("Astral"):
 		return False
 	# "Kill all ...".
@@ -99,7 +101,7 @@ def execute_dark_ritual():
 	print("Executing Dark Ritual")
 	astral_kill_all()
 	must(navigator.click_MainMenu_Party_TopMenu("Main"))
-	must(navigator.select_party(3))
+	#must(navigator.select_party(3))
 	must(navigator.click_MainMenu_Option("Ritual"))
 	navigator.click(470,174) # TODO: Sacred Ritual
 	navigator.click(206,938) # TODO: Dark Ritual
@@ -107,7 +109,7 @@ def execute_dark_ritual():
 	must(navigator.click_MainMenu_Ritual_ConfirmDarkRitual())
 	time.sleep(5)
 	navigator.click(470,174) # TODO: Sacred Ritual
-	must(navigator.select_party(2))
+	#must(navigator.select_party(2))
 	greed({0:1, 1:3}, default_count=0)
 
 def wake_from_low_cpu_mode():
