@@ -529,7 +529,7 @@ def click_MainMenu_Ritual_ConfirmDarkRitual():
 	if menu_state != "MainMenu/Ritual/":
 		if not click_MainMenu_Option("Ritual"):
 			return False
-	region = get_text_region(MENU_REGIONS__RITUAL__DARKRITUALCONFIRMATION, "OK")
+	region = get_text_region(MENU_REGIONS__RITUAL__DARKRITUALCONFIRMATION, text="OK", ignore_case=False)
 	if not region:
 		print("Failed to find Dark Ritual confirmation")
 		return False
