@@ -7,7 +7,7 @@ import pytesseract
 import cv2
 import time
 import re
-from PIL import ImageEnhance, ImageFilter, Image
+from PIL import ImageEnhance, ImageFilter, Image, ImageDraw
 from itertools import chain
 import hashlib
 
@@ -39,6 +39,9 @@ GAME_REGION = (GAME_TOP_LEFT[0], GAME_TOP_LEFT[1], GAME_WIDTH, GAME_HEIGHT)
 
 # The current navigation state. This lets us keep track of where we currently are in the UI. 
 menu_state = "MainMenu/"
+
+# Your full screen. Only used for taking debug screenshots.
+SCREEN_REGION = (0,0,2560,1440)
 
 # Theoretically, limiting the search to certain screen regions isn't needed, but practically it'll make things much faster and more reliable. The downside is that it's prone to breaking if the screen resizes or new UI elements are added.
 # X Y W H
@@ -117,6 +120,12 @@ def screen_region_from_game_region(region):
 	return region[0] + GAME_REGION[0], region[1] + GAME_REGION[1], region[2], region[3]
 
 
+def game_region_from_screen_region(region):
+	return (region[0]-GAME_REGION[0], region[1]-GAME_REGION[1], region[2], region[3])
+
+def game_coords_from_screen_coords(click_coord):
+	return (click_coord[0] - GAME_REGION[0], click_coord[1] - GAME_REGION[1])
+
 # In order to use pytesseract, the image needs to be cleaned up so that it's black text on a white background.
 # More processing is possible and may help.
 # https://stackoverflow.com/a/28936254/3184079
@@ -171,7 +180,7 @@ def text_close_enough(got, want):
 # If text is a string it will look for the first exact match, searching from the top left of the screen.
 # If text is an array of strings, it will try to find a match for all of them, but since it tokenizes on words it will only return the region for the first word. (e.g. "Talk to Old Lady" returns the region for "Talk"). Note that this doesn't respect the text actually being close together, only that it's found sequentially.
 # The input region can be any region on the screen. It doesn't need to be within the game window.
-# The x,y coordinates in the returned region are relative to the input region.
+# The region returned is relative to the top left corner of the screen.
 #
 # ignore_case is self explanatory.
 # only_a_z strips out non alphabet characters
@@ -198,9 +207,10 @@ def get_text_region(screen_region, text, ignore_case=True, only_a_z=True, find_n
 
 	found_region = get_text_region_from_image(img, screen_region, text, ignore_case, only_a_z, find_nth)
 	if found_region:
+		debug_screenshot_of_regions(screen_regions=[found_region], description="found '%s' at %s" % (text, str(found_region)))
 		return found_region
 	# Fall back to searching subsections of the given region recursively.
-	# In order to avoid intersecting the text we care about, it's done in both halves and thirds.
+	# In order to avoid subsections cutting off parts of text we care about, it's done in both halves and thirds.
 	if not enable_recursion:
 		return None
 	sub_regions = [
@@ -215,6 +225,7 @@ def get_text_region(screen_region, text, ignore_case=True, only_a_z=True, find_n
 		# Bottom third
 		(screen_region[0], screen_region[1] + int(2 * screen_region[3] / 3), screen_region[2], int(screen_region[3] / 3)),
 	]
+	#debug_screenshot_of_regions(screen_regions=sub_regions, description=" searching for '%s' recursion_depth_%d" % (text, recursion_depth))
 	# TODO: switch to BFS instead of DFS.
 	for r in sub_regions:
 		found_region = get_text_region(r, text, ignore_case=ignore_case, recursion_depth=recursion_depth + 1)
@@ -234,6 +245,8 @@ getTextRegionFromImage_cache = {}
 # If text is a string it will look for the first exact match, searching from the top left of the screen.
 # If text is an array of strings, it will try to find a match for all of them, but since it tokenizes on words it will only return the region for the first word. (e.g. "Talk to Old Lady" returns the region for "Talk"). Note that this doesn't respect the text actually being close together, only that it's found sequentially.
 # The provided region is only used for caching purposes.
+# The returned region is in the space of the provided region, so if you provide a screen_space region,
+# then the returned region is also screen_space.
 def get_text_region_from_image(img, region, text, ignore_case=True, only_a_z=True, find_nth=0):
 	# All of the important input parameters to the method must match, not just the image and text. Otherwise the same
 	# image from different screen locations would get cached to the same value. Similarly other state like `menu_state`
@@ -246,9 +259,7 @@ def get_text_region_from_image(img, region, text, ignore_case=True, only_a_z=Tru
 		print("get_text_region_from_image search for " + str(text) + " hit cached region: " + str(cached_region))
 		return cached_region
 
-	#img.save("screenshots/get_text_region.png") # TODO: useful for debugging
 	data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
-	#print(data)
 	boxes = len(data['text'])
 	all_found_text = []
 	all_found_text_indices = []  # indices in the original data from pytesseract.
@@ -262,17 +273,16 @@ def get_text_region_from_image(img, region, text, ignore_case=True, only_a_z=Tru
 			found_text = re.sub(r'[^a-zA-Z]', '', found_text)
 		all_found_text.append(found_text)
 		all_found_text_indices.append(i)
-	#if len(all_found_text) > 0:
-	#	print("get_text_region found: ", all_found_text)
 
 	index = find_index(text, all_found_text, find_nth=find_nth)
 	print("index %d of %s in %s" % (index, text, all_found_text))
 	if index != -1:
 		data_index = all_found_text_indices[index]
-		region = (data['left'][data_index], data['top'][data_index], data['width'][data_index], data['height'][data_index])
+		out_region = (data['left'][data_index], data['top'][data_index], data['width'][data_index], data['height'][data_index])
+		out_region = (out_region[0]+region[0], out_region[1]+region[1], out_region[2], out_region[3])
 		print("Found match for '%s': %s" % (text, all_found_text[index:index + len(text)]))
-		getTextRegionFromImage_cache[invocation_hash] = region
-		return region
+		getTextRegionFromImage_cache[invocation_hash] = out_region
+		return out_region
 	getTextRegionFromImage_cache[invocation_hash] = None
 	return None
 
@@ -315,7 +325,7 @@ def get_text_from_image(img):
 		print("get_text_from_image cache hit for text: " + cached_text)
 		return cached_text
 
-	#img.save("screenshots/get_text_region.png") # TODO: useful for debugging
+	#img.save("debug/get_text_region.png") # TODO: useful for debugging
 	data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT)
 	boxes = len(data['text'])
 	all_found_text = []
@@ -335,13 +345,15 @@ def get_text_from_image(img):
 
 # region is a tuple of x,y,w,h
 # It is based on screen coordinates and can click outside the game region.
-# If offset_region is provided, it's x and y coordinates will be used to offset the given region.
+# If offset_region is provided, its x and y coordinates will be used to offset the given region.
 def click_region(region, clicks=1, interval=0.1, offset_region=None):
 	if offset_region:
-		region = (region[0] + offset_region[0], region[1] + offset_region[1], region[2], region[3])
-	click_coord = (int(region[0] + region[2] / 2),
-								 int(region[1] + region[3] / 2))
-	print("Clicking the center of screen region=" + str(region) + "  == " + str(click_coord))
+		region[0] += offset_region[0]
+		region[1] += offset_region[1]
+	# Add half of the width and height to get the centerpoint.
+	click_coord = (region[0] + int(region[2] / 2),
+								 region[1] + int(region[3] / 2))
+	print("Clicking the center of screen region=" + str(region) + " -> screen_coords=" + str(click_coord) + " -> game_coords=" + str(game_coords_from_screen_coords(click_coord)))
 	if (click_coord[0] < GAME_REGION[0] or click_coord[0] > GAME_REGION[0] + GAME_REGION[2] or
 		click_coord[1] < GAME_REGION[1] or click_coord[1] > GAME_REGION[1] + GAME_REGION[3]):
 		print("WARNING: clicking outside of game region")
@@ -376,20 +388,30 @@ def click_MainMenu_Option(menu_name):
 	region = get_text_region(MENU_REGIONS, menu_name)
 	if not region:
 		print("Failed to find MainMenu option: ", menu_name)
-		# Fall back to hard-coded locations:
-		if menu_name == "Party":
-			print("Falling back to hard-coded location.")
-			click(52, 141)
-			return True
-		if menu_name == "Ritual":
-			print("Falling back to hard-coded location.")
-			click(52, 161)
-			return True
 		return False
-	click_region(region, offset_region=MENU_REGIONS)
+	click_region(region)
 	menu_state = "MainMenu/" + menu_name + "/"
 	time.sleep(0.5)  # sleep enough to let the next menu screen load.
 	return True
+
+# Take and save a screenshot of the game with the given regions outlined with rectangles.
+# Only one of game_regions or screen_regions must be set.
+def debug_screenshot_of_regions(screen_regions=[], game_regions=[], description=""):
+	if game_regions and screen_regions:
+		print("only one of game_regions or screen_regions should be set")
+		return
+	regions = []
+	if screen_regions:
+		regions = screen_regions
+	if game_regions:
+		for game_region in game_regions:
+			regions.append((game_region[0] + GAME_REGION[0], game_region[1] + GAME_REGION[1], game_region[2], game_region[3]))
+	img = common.screenshot(region=SCREEN_REGION)
+	draw = ImageDraw.Draw(img)
+	for region in regions:
+		# Convert xywh to x1y1 x2y2
+		draw.rectangle((region[0], region[1], region[0]+region[2], region[1]+region[3]), outline="red", width=1)
+	img.save("debug/regions__%s.png" % (description))
 
 
 # Open one of the MainMenu/Main/ options:
@@ -404,7 +426,7 @@ def click_MainMenu_Main_Area(menu_name):
 	if not region:
 		print("Failed to find MainMenu/Main/ option: %s" % menu_name)
 		return False
-	click_region(region, offset_region=MENU_REGIONS__MAIN__AREAS)
+	click_region(region)
 	menu_state = "MainMenu/Main/" + menu_name + "/"
 	return True
 
@@ -421,7 +443,7 @@ def click_MainMenu_Party_TopMenu(menu_name):
 	if not region:
 		print("Failed to find MainMenu/Party/ option: %s" % menu_name)
 		return False
-	click_region(region, offset_region=MENU_REGIONS__PARTY__TOP_BAR)
+	click_region(region)
 	menu_state = "MainMenu/Party/" + menu_name + "/"
 	return True
 
@@ -448,7 +470,7 @@ def click_MainMenu_Routine_Menu(menu_name):
 	if not region:
 		print("Failed to find MainMenu/Routine/ option: %s" % menu_name)
 		return False
-	click_region(region, offset_region=MENU_REGIONS__ROUTINE__SUBMENU)
+	click_region(region)
 	menu_state = "MainMenu/Routine/" + menu_name + "/"
 	return True
 
@@ -464,7 +486,7 @@ def click_MainMenu_Main_InstantAction(action_name, find_nth=0, enable_recursion=
 	if not region:
 		print("Failed to find InstantAction: %s" % action_name)
 		return False
-	click_region(region, offset_region=MENU_REGIONS__MAIN__INSTANT_ACTIONS)
+	click_region(region)
 	return True
 
 
@@ -478,7 +500,7 @@ def click_MainMenu_Main_LoopAction(action_name, find_nth=0, enable_recursion=Tru
 	if not region:
 		print("Failed to find LoopAction: %s" % action_name)
 		return False
-	click_region(region, offset_region=MENU_REGIONS__MAIN__LOOP_ACTIONS)
+	click_region(region)
 	return True
 
 
@@ -491,7 +513,7 @@ def click_MainMenu_Main_UpgradeAction(action_name, find_nth=0, enable_recursion=
 	if not region:
 		print("Failed to find UpgradeAction: %s" % action_name)
 		return False
-	click_region(region, offset_region=MENU_REGIONS__MAIN__UPGRADE_ACTIONS)
+	click_region(region)
 	return True
 
 
@@ -505,7 +527,7 @@ def click_MainMenu_Main_NextAction(action_name, find_nth=0, enable_recursion=Tru
 	if not region:
 		print("Failed to find NextAction: %s" % action_name)
 		return False
-	click_region(region, offset_region=MENU_REGIONS__MAIN__NEXT_ACTIONS)
+	click_region(region)
 	return True
 
 
@@ -520,7 +542,7 @@ def click_MainMenu_Main_DungeonAction(action_name, find_nth=0, enable_recursion=
 	if not region:
 		print("Failed to find DungeonAction: %s" % action_name)
 		return False
-	click_region(region, offset_region=MENU_REGIONS__MAIN__DUNGEON_ACTIONS)
+	click_region(region)
 	return True
 
 
@@ -529,11 +551,12 @@ def click_MainMenu_Ritual_ConfirmDarkRitual():
 	if menu_state != "MainMenu/Ritual/":
 		if not click_MainMenu_Option("Ritual"):
 			return False
+	time.sleep(1)
 	region = get_text_region(MENU_REGIONS__RITUAL__DARKRITUALCONFIRMATION, text="OK", ignore_case=False)
 	if not region:
 		print("Failed to find Dark Ritual confirmation")
 		return False
-	click_region(region, offset_region=MENU_REGIONS__RITUAL__DARKRITUALCONFIRMATION)
+	click_region(region)
 	return True
 
 
@@ -549,7 +572,7 @@ def get_current_rank():
 	found_text = re.sub(r'[^0-9]', '', found_text)
 	if len(found_text) > 0:
 		return int(found_text)
-
+	return None
 
 # Determines whether the provided image has a gray background. A dark background generally means that a button is not clickable. The provided region must be based on a region of a screen, rather than being relative to the game window.
 def is_region_grayed_out(region):

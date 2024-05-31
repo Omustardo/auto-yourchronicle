@@ -76,8 +76,6 @@ def gluttonyAll():
 		navigator.click(756, 143 + i * 24, clicks=25)
 
 def astral_kill_all():
-	# This method is obsoleted by the "Kill all" upgrade in the ruby shop.
-	return True
 	if not navigator.click_MainMenu_Main_Area("Astral"):
 		return False
 	# "Kill all ...".
