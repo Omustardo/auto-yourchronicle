@@ -36,11 +36,10 @@ TODOs:
   * always more inspiration gain %
 * beat serious spearman
 
-
 # Long term TODOs
 * all three wands
 * medicine x500 or more. (so I can buy it all one time and then not need to use a sloth slot)
-
+* Aim for 3 cerulean orbs (instant+loop+dungeon effects by 6% total), 1 emerald(10% global drop chance), 1 crimson(20% status). 3 cerulean is the priority, the others don't really matter.
 
 Full reincarnation / sin farming:
 This assumes the following required summons:
@@ -105,6 +104,8 @@ Spending sin to increase inventory size is a great combination with summons that
   Getting 1000 wood would result in 1 apple regen per second.
 * Queen Bee = Destiny regen +0.009 per Honey
   1000 honey is 9 destiny regen. Not great. If sin farming becomes easy later, it may be worthwhile, but probably not. Need to be getting hundreds of destiny per second at minimum.
+* Soldier Bee = Flowers give 0.1% Habit efficiency, and +1 honey max
+  Spending sin on max flowers probably isn't worthwhile, but it may become worthwhile eventually.
 * Virtue and Malice are not useful for quick sin farming runs, but they are very nice for farming inspiration.
 
 ---
