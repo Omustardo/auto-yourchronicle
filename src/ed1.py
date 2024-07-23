@@ -25,8 +25,9 @@ def must(result):
 # Requirements:
 # # Title: God's Guidance for destiny regen. Pioneer of Destiny for inspiration gain.
 # # Queue:
-# ## Loop: craft durable leather, tan pelt, farmwork, pray. (if Alchemy unlocked: create smelly satchets)
-# ## Other: Make Firewood. (optional: sell firewood, donate gold)
+# ## Dungeon[disabled]
+# ## Loop[enabled]: craft durable leather, tan pelt, farmwork, pray. (if Alchemy unlocked: create smelly satchets)
+# ## Other[enabled]: Make Firewood. (optional: sell firewood, donate gold)
 # # Party slot 2:
 # ## Immortal Rat (pelt regen), Tree Golem (wood regen), Golden Slime (gold regen), Troll (tanning and durable leather boost), (if alchemy unlocked: Hell Butterfly for making smelly satchets)
 # ## Optional Party:  Elder Treant (apple regen), Forest Fairy (herb regen), Charity Larva (pray bonus), Rock Bird (stone regen), Fire Drake (stat boost), Treant (make firewood boost)
@@ -36,10 +37,12 @@ def must(result):
 # # Settings:
 # ## Enable "Reverse Dungeon Hotkey"
 # ## Disable "Next Action Window"
+# ## Enable sloth's auto-habit allocation. Prioritize sacred ritual and envy.
 #
 # TODO: disable Dark Ritual confirmation popup?
 def ed1():
 	init()
+	# TODO: start by spending research / getting greed. need instant + loop actions and exp gain.
 	ed1_0_village()
 	ed1_1_forest()
 	ed1_2_academic()

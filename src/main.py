@@ -97,6 +97,14 @@ def infinite_ed1():
 initialize()
 take_screenshot("init.png")
 
+#print("game_region=" + str(navigator.GAME_REGION))
+#ritual_button = navigator.get_text_region(navigator.MENU_REGIONS, "Ritual")
+#print(str(ritual_button))
+#party_button = navigator.get_text_region(navigator.MENU_REGIONS, "Party")
+#print(str(party_button) + " vs search area=" + str(navigator.MENU_REGIONS))
+#navigator.debug_screenshot_of_regions(screen_regions=[(50,50,50,50), party_button], description="summary")
+#exit(0)
+
 #infinite_dark_ritual()
 
 partial_run.partial()

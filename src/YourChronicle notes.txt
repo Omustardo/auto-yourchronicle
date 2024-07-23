@@ -5,7 +5,7 @@
 # Evil Village:
 # TODO: boost malice/virtue with Sin and then use the bird summons to get points well before reaching this area.
 #      selling goddess' blessing is also good.
-# Talk with Bandit x5 (in order to get option to pay 2k to gate) -> City Gate -> Gatekeeper's  Soliloquy -> Pay 2000 Gold -> Talk with  Gatekeeper -> Enter the Evil City -> Swamp (dungeon) -> Permission to enter  Poison Swamp -> Unlock (dungeon) -> Poison Swamp (dungeon) -> Injured Man ->  Talk with Caring  Woman x3 -> Enter Clinic -> Talk with Dr. Mad x7 -> Give Research to  Dr. Mad x7 -> Give God's Grief  to Dr. Mad -> Give Goddess'  Blessing to Dr. Mad -> Give Nectar to Dr.  Mad (I'm not sure if giving it to him is needed, or just being able to give to him in order to unlock nectar) (if you give to him x4, it lets you sell the good potions for virtue+malice) -> Talk with Man with Amnesia x3 -> Talk with Man with Amnesia x3 (yes, it repeats) -> Talk with Man with Amnesia x3 (and again) -> Use Nectar -> Talk with  Recovered Man x8 -> He left in a hurry -> Injured man -> Talk with Recovered man x13 -> Corrupted Great Bird's Return -> Unlock (dungeon) -> Dead Bird's Nest (dungeon) -> (continue with one of two options below:)
+# Talk with Bandit x5 (in order to get option to pay 2k to gate) -> City Gate -> Gatekeeper's  Soliloquy -> Pay 2000 Gold -> Talk with  Gatekeeper -> Enter the Evil City -> Swamp (dungeon) -> Permission to enter  Poison Swamp -> Unlock (dungeon) -> Poison Swamp (dungeon) -> Injured Man ->  Talk with Caring  Woman x3 -> Enter Clinic -> Talk with Dr. Mad x7 -> Give Research to  Dr. Mad x7 -> Give God's Grief  to Dr. Mad -> Give Goddess'  Blessing to Dr. Mad -> Give Nectar to Dr.  Mad (if you give to him x4, it lets you sell the good potions for virtue+malice) -> Talk with Man with Amnesia x3 -> Talk with Man with Amnesia x3 (yes, it repeats) -> Talk with Man with Amnesia x3 (and again) -> Use Nectar -> Talk with  Recovered Man x8 -> He left in a hurry -> Injured man -> Talk with Recovered man x13 -> Corrupted Great Bird's Return -> Unlock (dungeon) -> Dead Bird's Nest (dungeon) -> (continue with one of two options below:)
 # The fast way or the good ending?
   * [Talk with Recovered Man x3 -> Save the Man -> Talk with  Recovered Man x4 -> Your Sister is Waiting -> Talk with  Recovered Man x2]
   * [Honor his Last  Wish -> Talk with  Recovered Man -> He died]
@@ -31,13 +31,30 @@ Remember:
 
 TODOs:
 * increase resource caps
-  * stone x120
+  * stone x80
   * wreath (for Destiny regen, +0.01 each). 100 == 1 regen/s. Meh. Need 10k+ to be of any use. Still, need a load of destiny to do Fate so maybe worthwhile for automating runs involving Magic City?
   * always more inspiration gain %
-* beat serious spearman
+* beat serious spearman. just farm up gluttony boosts for a while. From https://steamcommunity.com/app/1546320/discussions/0/3271312871360609019/
+* beat ED6:
+  Punish the bullies.
+  Defeat serious father before leaving the village and refuse training.
+  Clear areas until Sigurd appears.
+  Farm for physical attack:
+  * buy beef, pork. make beef steak, firewood.
+  * gluttony: leave 10+ beef. eat beef, pork, beef steak, salt
+  * dungeon:  rock hill top, dragon's nest (for gold), moon forest abyss (for wine for beef steak)
+  * use physical attack equipment and 2nd equipment.
+  * Greater Demon familiars
+  * switch to body focus for Envy
+  Use fire drake, goblin elite, and then all stat boosters. Mercenary title.
+  I used my main character with Spiked Spear attack.
+
+  Defeat sigurd. As the reason for being so strong pick "For your father" and clear all Spearman conversations (up to 16/16).
+  You can graduate now. Some conversations are locked by graduating (at least some of the eavesdropping). Do it before graduating if you care. It doesn't change the steps needed for the ending.
+  Defeat the demon king and finish conversation with him.
+
 
 # Long term TODOs
-* all three wands
 * medicine x500 or more. (so I can buy it all one time and then not need to use a sloth slot)
 * Aim for 3 cerulean orbs (instant+loop+dungeon effects by 6% total), 1 emerald(10% global drop chance), 1 crimson(20% status). 3 cerulean is the priority, the others don't really matter.
 
@@ -50,7 +67,7 @@ and these optional ones:
 * Treant - bonus for making firewood
 * Troll - bonus for making leather and durable leather
 
-# Full ed1
+# Full ED1 (Willing Revenge) (kill DK)
 1. Make sure to be on party preset #2
 2. Routine/Greed/ : use greed to level up: instant action efficiency+, dungeon reward+, drop chance+, loop action efficiency, valuable experience
 3. Routine/Sloth/AutoHabit/ : enable basics
@@ -80,6 +97,48 @@ and these optional ones:
 16. Spend Sins.
 17. Repeat from 1
 
+# Full ED2 (A Moment of Peace) (make holy sword, use it on DK)
+1. Get through village and into academic city. Punish bullies, leave alone.
+2. In academic city get rank 35 and get the three titles.
+3. Do adventurer's guild until you get 'Go to Guild 3'. Do 'Get out of my  way!' and then 'Arrived in the  cave'.
+4. 'Destroy the  hideout'. (dungeon) 'Bandit Hideout'. 'Get treasure'. 'Search the Bandit'. 'Bandit Note 2'
+   'Examine the Hideout'. 'Rusty Sword'
+   'Go to Smith's  Village'
+5. Graduate. Talk with Teacher x3
+6. Change area to 'Smith's Village'
+7. 'A Group of Monsters'. (dungeon) 'Monster Flock'. 'Destroyed'. 'Talk with the  Village Chief'. 'Enter the Village'.
+8. Change area to 'Ancient Ruins'. Camp at Ruins until you have enough Scrap Metal to repair the sword. 10 steel needed.
+9. Change area to 'Smith's Village'.  'Talk with  Repairsmith'. 'Repairsmith's  Forge'.
+  'Talk with the  Village Chief' - @@@ is this one needed?
+8. (next action) Fly away. (upgrade action) Above the Clouds. (next action) 'To the Demon  Kingdom'
+9. Change area to 'Demon Kingdom'.
+10. (dungeon) 'Demon Kingdom -  Fort'.
+10 'Talk with Demon  King'. 'Demon King' x4. 'You' x7
+
+
+2. Start school. Start adventurer's guild.
+3.
+5.
+
+# Full ED6
+# Start with the usual ED1 party. Notably Troll, Immortal Rat, Tree Golem, Rock Bird, Elder Treant, Treant, Forest Fairy
+#  TODO: add queen bee to get honey for later.
+# Sloth: start with all empty, but enabled
+#
+# In Village:
+1. Main/Village/ : Talk with Father, Training Room (dungeon), Talk with Father x3, Go to the Village, Study in Church (need 30 gold), Learn tactics
+1. Main/Village/ : Loop actions: Farmwork, Tan Pelt
+1. Routine/Greed :  add about 5k to each greed slot, but especially Instant+Loop efficiency, essence of the elements, valuable experience, and child prodigy.
+1. Main/Village/ : (dungeon) Unlock, Training room - Rank, Training room - Summon, Unlock, Training room - Skill, Unlock, Fight Father, Unlock, Fight Father 2
+1. Main/Village/ : Permission to go out,  Riverbank (dungeon), Warrior School, A Girl is Crying, Punish the Bullies, Edge of Town (dungeon), Waterfall (dungeon), Unlock
+1. Main/Village/ : Add Dim Cave x2 to sloth.
+1. Routine/Gluttony : Enable auto-eat on Anchovy Sandwich and Pork
+1. Main/Village/ : Talk with Old Lady 1-5, Talk with Old Lady 1-3, add 'Craft Durable Leather' to loop, Talk with Old Lady 4-5, Remember me!, Talk with Girl, I don't play, Dark Magic Circle, Talk with Girl
+1. Main/Village/ : Talk with Bully 1-6,
+1. Wait for dark ritual
+1. Main/Village/ : (dungeon) Unlock, Fight Father 3, Unlock, Serious Father
+1. Main/Village/ : Talk with Father 1-4, Decline Training (18k destiny), Talk with Father, Leave the Village  Alone
+1. TODO
 
 # Unlocks
 For muscle priests, I've done all four options. @ doesn't matter
@@ -91,10 +150,15 @@ For Dragon City classy lady, I've done (let's practice some more) (this is good)
 For Magic City schools, I've done (Practical, leads to Antimagic wand). (Classical, leads to harvest wand for more research). (Theory, elemental wand). need: (Genius)
 For Magic City, Practical School, I've asked Fili to teach me. Need: "Don't ask Fili to teach me"
 For Magic City, Arcana forum, I've "Talked with Fili" and "Don't talk with Fili". @ Talk to him or it's nothing. Any reward for talking?
-For Demon Kingdom (ending #4) I've taken Norn, Iari. need (Fenia part2).
+For Demon Kingdom I've taken Norn, Iari, and Fenia.
 	With Norn, I've respected her wishes to not kill the Demon King. This let me learn more.
 	With Iari, he kills the king with the sword.
-	With Fenia, I've said that she should kill the Demon King. need (Respect your will)
+	With Fenia, I've said that she should kill the Demon King.
+	With Fenia, I've separated chosen (Respect your will) which results in making peace with the Demon Kingdom. ED5
+After defeating Sigurd, give the reason:
+  It's Destiny. (done, required for ED6)
+  For Father's Wishes (TODO)
+  For Justice (TODO)
 
 ---
 

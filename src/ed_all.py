@@ -14,7 +14,7 @@ def spend_sins():
 	# TODO: mouseover and press 'a' rather than this awkward loop. 
 	count = 0
 	for i in range(50):
-		if navigator.click_MainMenu_Main_InstantAction("Smelly", enable_recursion=False): # "Smelly Sachet  Max+"
+		if navigator.click_MainMenu_Main_InstantAction("Smelly", enable_recursion=False): # " Smelly -> Smelly Sachet  Max+"
 		#if navigator.click_MainMenu_Main_InstantAction("Inspiration", enable_recursion=False): # "Inspiration+"
 			count = count + 1
 		else:
